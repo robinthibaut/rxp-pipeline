@@ -24,9 +24,9 @@ mkdir -p $rxp2ply_dir
 mkdir -p $downsample_dir
 
 # Convert to ply
-python rxp2ply.py --project ${RIPROJECT} --deviation 15 --odir ${rxp2ply_dir} --verbose --num-prcs 1 &&
+python /code/rxp2ply.py --project ${RIPROJECT} --deviation 15 --odir ${rxp2ply_dir} --verbose --num-prcs 1 &&
 # Downsample
-python downsample.py -i ${rxp2ply_dir} -o ${downsample_dir} --length 0.02 --verbose &&
+python /code/downsample.py -i ${rxp2ply_dir} -o ${downsample_dir} --length 0.02 --verbose &&
 # Create new tile index
-python tile_index.py ${downsample_dir} -o ${extraction_dir}
+python /code/tile_index.py ${downsample_dir} -o ${extraction_dir}
 
