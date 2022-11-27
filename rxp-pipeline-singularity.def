@@ -1,0 +1,58 @@
+Bootstrap: docker
+From: ubuntu:20.04
+
+%setup
+	# Copy LiDAR plugin and wrapper script
+    cp -r /data/requests/peer_rev/21_27_wilkes_tls_classification/code/rivlib-2_5_10-x86_64-linux-gcc9 /tmp/
+	# Copy code
+	mkdir -p /tmp/code && cp -a . /tmp/code
+
+%post
+    # Set as non-interactve
+    export DEBIAN_FRONTEND=noninteractive
+
+    # Install some standard packages, including compilers
+    apt-get update && apt-get install -y  \
+        apt-utils git curl vim unzip wget \
+        build-essential
+
+
+    # Install miniconda
+    wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
+        /bin/bash ~/miniconda.sh -b -p /opt/miniconda && \
+        rm ~/miniconda.sh && \
+        ln -s /opt/miniconda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+
+    . /opt/miniconda/etc/profile.d/conda.sh
+	conda activate base
+	# Create environment
+	conda create -n pdal -c conda-forge gdal ninja cmake cxx-compiler laszip pdal python-pdal pandas tqdm
+
+    conda activate pdal
+
+	# Build PDAL with plugin
+	wget https://github.com/PDAL/PDAL/releases/download/2.3.0/PDAL-2.3.0-src.tar.gz
+    tar xf PDAL-2.3.0-src.tar.gz
+    cd PDAL-2.3.0-src/
+    sed -i 's/DEFAULT_SYNC_TO_PPS = true/DEFAULT_SYNC_TO_PPS = false/g' plugins/rxp/io/RxpReader.hpp
+    export RiVLib_DIR=/tmp/rivlib-2_5_10-x86_64-linux-gcc9
+    mkdir build
+    cd build
+    cmake -G Ninja -D BUILD_PLUGIN_RIVLIB=ON -D CMAKE_INSTALL_PREFIX=/opt/miniconda/envs/pdal ../
+    ninja
+    ninja install
+	conda clean --all -y
+
+	mv /tmp/code /code/
+
+%runscript
+	# Start python when calling with 'run' can also put path to script in here
+	export PATH=/opt/miniconda/envs/pdal/bin/python:$PATH
+    /code/run_rxp.sh $1
+
+%labels
+	Author neodaas-ai@pml.ac.uk
+
+%help
+	Container to run the initial data preprocessing for TLS processing
+
