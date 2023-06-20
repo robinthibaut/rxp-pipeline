@@ -40,7 +40,7 @@ _Before installing PDAL you could instead:_ `conda activate /home/ucfaptv/opt/mi
     Example commands in linux:
     
         $ wget https://github.com/PDAL/PDAL/releases/download/2.5.5/PDAL-2.5.5-src.tar.bz2
-        $ tar -xf PDAL-2.3.0-src.tar.gz
+        $ tar -xf PDAL-2.5.5-src.tar.gz
         
 4.  Download the `rivlib-2_5_10-x86_64-linux-gcc9.zip` (make sure to get the gcc9 version) and the the `rdblib-2.4.0-x86_64-linux.tar.gz` from the memebers area of the RIEGL website. 
     - Unzip `rivlib-2_5_10-x86_64-linux-gcc9.zip` and add an environmental variable to point at the directory `export RiVLib_DIR=/path/to/rivlib-2_5_10-x86_64-linux-gcc9`. 
@@ -61,7 +61,7 @@ _Before installing PDAL you could instead:_ `conda activate /home/ucfaptv/opt/mi
         $ ls bin/pdal
         bin/pdal
         
-    Next, add the this bin path to the environmental variable $PATH `export PATH=/path/to/PDAL-2.3.0-src/build/bin:$PATH`
+    Next, add the this bin path to the environmental variable $PATH `export PATH=/path/to/PDAL-2.5.5-src/build/bin:$PATH`
 
 6. `cp build/lib/libpdal_plugin_reader_*.so /path/to/.conda/envs/pdal/lib/.`, this is required to open `.rxp`  and `.rdbx` in Python.
 
