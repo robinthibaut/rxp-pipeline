@@ -46,6 +46,10 @@ _Before installing PDAL you could instead:_ `conda activate /home/ucfaptv/opt/mi
     - Unzip `rivlib-2_5_10-x86_64-linux-gcc9.zip` and add an environmental variable to point at the directory `export RiVLib_DIR=/path/to/rivlib-2_5_10-x86_64-linux-gcc9`. 
     - Untar `rdblib-2.4.0-x86_64-linux.tar.gz` and add an environmental variable to point at the directory `export rdb_DIR=/path/to/rdblib-2.4.0-x86_64-linux/interface/cpp`
 
+    - MacOS trick: `cd /Users/rthibaut/PycharmProjects/LBNL/SFA/libraries/rxp-pipeline/rivlib/rdblib-2.4.3-arm64-linux/library/`
+`ln -s librdb.so.2.4.3 librdb.dylib`
+
+
 5.  Before running cmake
     - edit line 58 of `cmake/options.cmake` to `"Choose if RiVLib support should be built" True)`
     - edit line 63 of `cmake/options.cmake` to `"Choose if rdblib support should be built" True)`
